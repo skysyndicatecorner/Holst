@@ -33,7 +33,7 @@ Free and open-source editor of interactive presentations, quizzes and games.
 | Система | Файл | Что сделать |
 | --- | --- | --- |
 | Windows 10/11 (64-bit) | `Holst-…-windows-x64.zip` | Распаковать, запустить `Holst.exe` |
-| Windows (установщик) | `Holst-…-windows-x64-nsis.exe` | Запустить и следовать шагам |
+| Windows (установщик) | `Holst-…-windows-x64-setup.exe` | Запустить и следовать шагам |
 | Linux (Ubuntu, Debian, Mint, Astra) | `holst_…_amd64.deb` | `sudo apt install ./holst_0.1.0_amd64.deb` |
 | Linux (любой) | `Holst-…-linux-x86_64.AppImage` | `chmod +x Holst-*.AppImage`, затем запустить |
 | Android 7+ (телефоны, планшеты, доски) | `Holst-…-android.apk` | Открыть файл на устройстве, разрешить установку из этого источника |
@@ -102,7 +102,7 @@ build/          иконки для настольных версий
 | System | File | How |
 | --- | --- | --- |
 | Windows 10/11 (64-bit) | `Holst-…-windows-x64.zip` | Unzip, run `Holst.exe` |
-| Windows (installer) | `Holst-…-windows-x64-nsis.exe` | Run and follow the steps |
+| Windows (installer) | `Holst-…-windows-x64-setup.exe` | Run and follow the steps |
 | Linux (Debian/Ubuntu family) | `holst_…_amd64.deb` | `sudo apt install ./holst_0.1.0_amd64.deb` |
 | Linux (any) | `Holst-…-linux-x86_64.AppImage` | `chmod +x`, then run |
 | Android 7+ (phones, tablets, boards) | `Holst-…-android.apk` | Open on the device, allow installing from this source |

@@ -60,10 +60,13 @@
       "target": [
         { "target": "nsis", "arch": ["x64"] },
         { "target": "portable", "arch": ["x64"] }
-      ],
-      "artifactName": "Holst-${version}-windows-${arch}-${target}.${ext}"
+      ]
+    },
+    "portable": {
+      "artifactName": "Holst-${version}-windows-${arch}-portable.${ext}"
     },
     "nsis": {
+      "artifactName": "Holst-${version}-windows-${arch}-setup.${ext}",
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
