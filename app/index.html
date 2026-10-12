@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5b5bf7">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; img-src 'self' data: blob: https:; media-src 'self' data: blob:">
+  <title>Холст · Holst</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===================== HOME ===================== -->
+    <section id="home" class="screen">
+      <header class="home-bar">
+        <div class="brand">
+          <img src="icon.svg" alt="" class="brand-mark">
+          <span class="brand-name" data-i18n="appName">Холст</span>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn ghost" id="btnOpenFile"><span class="ic" data-icon="folder"></span><span data-i18n="openFile">Открыть файл</span></button>
+        <button class="btn ghost icon-only" id="btnSettings" data-i18n-title="settings"><span class="ic" data-icon="settings"></span></button>
+      </header>
+
+      <main class="home-main">
+        <div class="hero">
+          <h1 data-i18n="createNew">Создать новую работу</h1>
+          <p class="muted" data-i18n="tagline"></p>
+        </div>
+        <div class="type-grid" id="typeGrid"></div>
+
+        <div class="section-head">
+          <h2 data-i18n="recent">Недавние проекты</h2>
+          <span class="muted" id="projCount"></span>
+        </div>
+        <div class="proj-grid" id="projGrid"></div>
+        <p class="empty muted" id="projEmpty" hidden data-i18n="noProjects"></p>
+      </main>
+    </section>
+
+    <!-- ===================== EDITOR ===================== -->
+    <section id="editor" class="screen" hidden>
+      <header class="top-bar">
+        <button class="btn ghost icon-only" id="btnHome" data-i18n-title="home"><span class="ic" data-icon="home"></span></button>
+        <input id="projName" class="name-input" spellcheck="false" maxlength="80">
+        <span class="save-state muted" id="saveState"></span>
+        <div class="spacer"></div>
+        <button class="btn ghost icon-only mobile-only" id="btnToggleAdd" data-i18n-title="insert"><span class="ic" data-icon="plus"></span></button>
+        <button class="btn ghost icon-only mobile-only" id="btnToggleProps" data-i18n-title="properties"><span class="ic" data-icon="sliders"></span></button>
+        <button class="btn ghost icon-only" id="btnUndo" data-i18n-title="undo"><span class="ic" data-icon="undo"></span></button>
+        <button class="btn ghost icon-only" id="btnRedo" data-i18n-title="redo"><span class="ic" data-icon="redo"></span></button>
+        <span class="sep desktop-only"></span>
+        <button class="btn ghost icon-only desktop-only" id="btnSettings2" data-i18n-title="settings"><span class="ic" data-icon="settings"></span></button>
+        <div class="menu-wrap">
+          <button class="btn" id="btnExport"><span class="ic" data-icon="download"></span><span class="lbl" data-i18n="export">Экспорт</span></button>
+          <div class="menu" id="exportMenu" hidden>
+            <button data-export="html"><span class="ic" data-icon="globe"></span><span><b data-i18n="exportHtml"></b><small data-i18n="exportHtmlD"></small></span></button>
+            <button data-export="holst"><span class="ic" data-icon="file"></span><span><b data-i18n="exportHolst"></b><small data-i18n="exportHolstD"></small></span></button>
+            <button data-export="pdf" id="exportPdfBtn"><span class="ic" data-icon="printer"></span><span><b data-i18n="exportPdf"></b><small data-i18n="exportPdfD"></small></span></button>
+          </div>
+        </div>
+        <button class="btn primary" id="btnPresent"><span class="ic" data-icon="play"></span><span class="lbl" data-i18n="preview">Показ</span></button>
+      </header>
+
+      <div class="workspace">
+        <aside class="panel panel-left" id="panelAdd">
+          <div class="panel-title"><span data-i18n="insert">Вставка</span><button class="btn ghost icon-only mobile-only close-sheet" data-i18n-title="close"><span class="ic" data-icon="x"></span></button></div>
+          <div class="panel-scroll">
+            <div class="group-label" data-i18n="text">Текст</div>
+            <div class="add-list">
+              <button class="add-item" data-add="heading"><span class="add-ic big-t">Aa</span><span data-i18n="heading">Заголовок</span></button>
+              <button class="add-item" data-add="paragraph"><span class="add-ic small-t">Aa</span><span data-i18n="paragraph">Абзац</span></button>
+            </div>
+            <div class="group-label" data-i18n="shapes">Фигуры</div>
+            <div class="shape-grid" id="shapeGrid"></div>
+            <div class="group-label" data-i18n="media">Медиа</div>
+            <div class="add-list">
+              <button class="add-item" data-add="image"><span class="add-ic"><span class="ic" data-icon="image"></span></span><span data-i18n="image">Изображение</span></button>
+            </div>
+            <div class="group-label" data-i18n="interactive">Интерактив</div>
+            <div class="add-list">
+              <button class="add-item" data-add="button"><span class="add-ic"><span class="ic" data-icon="button"></span></span><span data-i18n="button">Кнопка</span></button>
+              <button class="add-item" data-add="quiz"><span class="add-ic"><span class="ic" data-icon="quiz"></span></span><span data-i18n="quiz">Вопрос</span></button>
+              <button class="add-item" data-add="hotspot"><span class="add-ic"><span class="ic" data-icon="target"></span></span><span data-i18n="hotspot">Точка</span></button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="canvas-area">
+          <div class="canvas-wrap" id="canvasWrap">
+            <div class="stage-holder" id="stageHolder"></div>
+            <div class="overlay" id="overlay"></div>
+          </div>
+          <div class="slides-bar">
+            <div class="slides-strip" id="slidesStrip"></div>
+          </div>
+        </div>
+
+        <aside class="panel panel-right" id="panelProps">
+          <div class="panel-title"><span id="propsTitle" data-i18n="properties">Свойства</span><button class="btn ghost icon-only mobile-only close-sheet" data-i18n-title="close"><span class="ic" data-icon="x"></span></button></div>
+          <div class="tabs" id="propTabs"></div>
+          <div class="panel-scroll" id="propBody"></div>
+        </aside>
+      </div>
+      <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+    </section>
+
+    <!-- ===================== PRESENT ===================== -->
+    <div id="present" hidden></div>
+    <div id="printArea" aria-hidden="true"></div>
+
+    <!-- ===================== SETTINGS ===================== -->
+    <div class="modal-backdrop" id="settingsModal" hidden>
+      <div class="modal" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <h3 data-i18n="settings">Настройки</h3>
+          <button class="btn ghost icon-only" data-close data-i18n-title="close"><span class="ic" data-icon="x"></span></button>
+        </div>
+        <div class="field">
+          <label data-i18n="language">Язык</label>
+          <div class="seg" id="segLang"></div>
+        </div>
+        <div class="field">
+          <label data-i18n="theme">Тема</label>
+          <div class="seg" id="segTheme"></div>
+        </div>
+        <div class="field">
+          <label class="switch-row">
+            <span><span data-i18n="boardMode"></span><small class="muted" data-i18n="boardModeHint"></small></span>
+            <input type="checkbox" id="chkBoard" class="switch">
+          </label>
+        </div>
+        <div class="about">
+          <b data-i18n="about">О программе</b>
+          <p class="muted" data-i18n="aboutText"></p>
+          <p class="muted"><span data-i18n="version">Версия</span> <span id="appVersion"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" id="fileOpen" accept=".holst,.json,application/json" hidden>
+    <input type="file" id="fileImage" accept="image/*" hidden>
+    <input type="file" id="fileBg" accept="image/*" hidden>
+    <div class="toasts" id="toasts"></div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/model.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/files.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

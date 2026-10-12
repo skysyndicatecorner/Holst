@@ -1,0 +1,15 @@
+{
+  "appId": "org.holst.app",
+  "appName": "Холст",
+  "webDir": "app",
+  "android": {
+    "backgroundColor": "#5b5bf7",
+    "allowMixedContent": false,
+    "captureInput": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 600
+    }
+  }
+}

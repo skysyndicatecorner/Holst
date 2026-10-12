@@ -1,0 +1,95 @@
+{
+  "name": "holst",
+  "productName": "Holst",
+  "version": "0.1.0",
+  "description": "Холст / Holst — open-source editor of interactive presentations, quizzes and games",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/skysyndicatecorner/holst",
+  "author": {
+    "name": "Holst contributors",
+    "email": "holst@users.noreply.github.com"
+  },
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "web": "npx --yes http-server app -p 8080 -c-1",
+    "dist:win": "electron-builder --win --x64",
+    "dist:linux": "electron-builder --linux --x64",
+    "android:init": "npx cap add android && node scripts/android-setup.js",
+    "android:sync": "npx cap sync android",
+    "android:build": "npx cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/filesystem": "^8.0.0",
+    "@capacitor/share": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "electron": "44.7.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "org.holst.app",
+    "productName": "Holst",
+    "copyright": "Holst contributors · AGPL-3.0",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "app/**/*",
+      "electron/**/*",
+      "build/icon.png",
+      "build/icon.ico",
+      "package.json",
+      "LICENSE"
+    ],
+    "fileAssociations": [
+      {
+        "ext": "holst",
+        "name": "Holst project",
+        "description": "Holst project",
+        "mimeType": "application/x-holst"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "artifactName": "Holst-${version}-windows-${arch}-${target}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Holst",
+      "language": "1049",
+      "multiLanguageInstaller": true
+    },
+    "linux": {
+      "icon": "build/icons",
+      "category": "Education",
+      "synopsis": "Interactive presentations, quizzes and games",
+      "target": ["AppImage", "deb"],
+      "artifactName": "Holst-${version}-linux-${arch}.${ext}",
+      "desktop": {
+        "entry": {
+          "Name": "Holst",
+          "Name[ru]": "Холст",
+          "Comment": "Interactive presentations, quizzes and games",
+          "Comment[ru]": "Интерактивные презентации, квизы и игры",
+          "Keywords": "presentation;quiz;slides;education;презентация;квиз;"
+        }
+      }
+    },
+    "deb": {
+      "maintainer": "Holst contributors <holst@users.noreply.github.com>"
+    }
+  }
+}
